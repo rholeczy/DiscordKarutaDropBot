@@ -1,0 +1,8 @@
+# Fichiers spécifiques à un langage ou un environnement
+*.log
+*.pot
+*.pyc
+__pycache__/
+
+# Fichiers de configuration
+configBot.ini
