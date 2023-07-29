@@ -44,10 +44,10 @@ class DiscordKarutaDropBot:
                     for message in messages:
                         if "drop me" in message['content'].lower():
                             current_time = time.time()
+                            current_datetime = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                             if self.last_response_time == 0 or current_time - self.last_response_time >= self.cooldown_duration:
                                 self.send_message("Voici un drop :smile: !")
                                 self.send_message("kd")
-                                current_datetime = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                                 print(f"[INFO : {current_datetime}] : Drop en cours")
                                 self.last_response_time = current_time
                             else:
@@ -65,6 +65,7 @@ class DiscordKarutaDropBot:
                     print("HTTP error occurred:", http_err)
             except Exception as e:
                 print("Erreur lors de la récupération des messages :", e)
+
 
 if __name__ == "__main__":
     config = configparser.ConfigParser()
