@@ -37,8 +37,6 @@ class DiscordKarutaDropBot:
 
     def listen_for_new_messages(self):
         last_message_id = None
-        retry_after_delay = 2
-
         while True:
             try:
                 messages = self.get_messages_since(last_message_id)
@@ -61,18 +59,12 @@ class DiscordKarutaDropBot:
                             break
             except requests.exceptions.HTTPError as http_err:
                 if http_err.response.status_code == 429:
-                    retry_after_delay = int(http_err.response.headers.get('retry-after', retry_after_delay))
-                    print(f"Rate-limited. Retrying in {retry_after_delay} seconds...")
-                    time.sleep(retry_after_delay)
+                    retry_after = float(http_err.response.headers.get('Retry-After', '2'))
+                    time.sleep(retry_after)
                 else:
                     print("HTTP error occurred:", http_err)
-            except requests.exceptions.RequestException as req_err:
-                print("Request error occurred:", req_err)
             except Exception as e:
-                print("Error occurred:", e)
-
-            
-            time.sleep(300)
+                print("Erreur lors de la récupération des messages :", e)
 
 
 if __name__ == "__main__":
